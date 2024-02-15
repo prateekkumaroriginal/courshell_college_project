@@ -1,219 +1,151 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include <ctime>
-#include <uuid/uuid.h> 
+#include <cstdlib>
 
-class Article {
-private:
-    std::string title;
-    std::string content;
-    int duration;
-    std::string moduleId;
-    bool isOptional;
-    std::string articleId;
-    time_t createdAt;
+class User {
+protected:
+    std::string username;
+    std::string password;
 
 public:
-    Article(std::string title, std::string content, int duration, std::string moduleId, bool isOptional = false) {
-        this->title = title;
-        this->content = content;
-        this->duration = duration;
-        this->moduleId = moduleId;
-        this->isOptional = isOptional;
-        this->createdAt = std::time(nullptr);
+    User(std::string username, std::string password)
+        : username(username), password(password) {}
 
-        // Generate UUID (you may need to use a different method for UUID generation depending on your setup)
-        uuid_t uuid;
-        uuid_generate(uuid);
-        char uuidStr[37];
-        uuid_unparse(uuid, uuidStr);
-        this->articleId = std::string(uuidStr);
+    virtual ~User() {}
+
+    virtual std::string getType() const = 0;
+
+    
+    virtual void signUp() = 0;
+
+ 
+    virtual bool signIn() = 0;
+};
+
+// Class for regular users
+class RegularUser : public User {
+public:
+    RegularUser(std::string username, std::string password)
+        : User(username, password) {}
+
+    std::string getType() const override {
+        return "Regular User";
     }
 
-    void setTitle(std::string title) {
-        this->title = title;
+    void signUp() override {
+        std::cout << "Signed up as a Regular User\n";
     }
 
-    void setDuration(int duration) {
-        this->duration = duration;
-    }
-
-    void setContent(std::string content) {
-        this->content = content;
-    }
-
-    void setOptional() {
-        this->isOptional = true;
-    }
-
-    void setCompulsory() {
-        this->isOptional = false;
+    bool signIn() override {
+        std::cout << "Signed in as a Regular User\n";
+        return true;
     }
 };
 
-class Module {
-private:
-    std::string title;
-    std::string courseId;
-    std::string moduleId;
-    time_t createdAt;
-    std::vector<std::string> articleIds;
-
+class Instructor : public User {
 public:
-    Module(std::string title, std::string courseId) {
-        this->title = title;
-        this->courseId = courseId;
-        this->createdAt = std::time(nullptr);
+    Instructor(std::string username, std::string password)
+        : User(username, password) {}
 
-        // Generate UUID for module
-        uuid_t uuid;
-        uuid_generate(uuid);
-        char uuidStr[37];
-        uuid_unparse(uuid, uuidStr);
-        this->moduleId = std::string(uuidStr);
+    std::string getType() const override {
+        return "Instructor";
     }
 
-    void setTitle(std::string title) {
-        this->title = title;
+    void signUp() override {
+        std::cout << "Signed up as an Instructor\n";
     }
 
-    void addArticle() {
-        // Implement addArticle functionality
-    }
-
-    void removeArticle(std::string articleId) {
-        // Implement removeArticle functionality
+    bool signIn() override {
+        std::cout << "Signed in as an Instructor\n";
+        return true;
     }
 };
+
 
 class Course {
 private:
     std::string title;
     std::string description;
-    std::string instructorId;
     std::string courseId;
-    time_t createdAt;
-    std::vector<std::string> moduleIds;
 
 public:
-    Course(std::string title, std::string description, std::string instructorId) {
-        this->title = title;
-        this->description = description;
-        this->instructorId = instructorId;
-        this->createdAt = std::time(nullptr);
+    Course(std::string title, std::string description)
+        : title(title), description(description), courseId(generateCourseID()) {}
 
-        // Generate UUID for course
-        uuid_t uuid;
-        uuid_generate(uuid);
-        char uuidStr[37];
-        uuid_unparse(uuid, uuidStr);
-        this->courseId = std::string(uuidStr);
+    std::string getTitle() const { return title; }
+
+    std::string getCourseId() const { return courseId; }
+
+    // Function to generate a unique course ID
+    std::string generateCourseID() const {
+        const std::string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const int len = 6;
+        std::string id;
+        for (int i = 0; i < len; ++i) {
+            id += chars[rand() % chars.length()];
+        }
+        return id;
     }
 
-    void setTitle(std::string title) {
-        this->title = title;
-    }
-
-    void addModule() {
-        // Implement addModule functionality
-    }
-
-    void removeModule(std::string moduleId) {
-        // Implement removeModule functionality
+    void display() const {
+        std::cout << "Course ID: " << courseId << std::endl;
+        std::cout << "Title: " << title << std::endl;
+        std::cout << "Description: " << description << std::endl;
     }
 };
 
-class Instructor {
+class  Courshell {
 private:
-    std::string username;
-    std::string password;
-    std::string instructorId;
-    time_t createdAt;
-    std::vector<std::string> createdCourseIds;
+    std::vector<Course> courses;
 
 public:
-    Instructor(std::string username, std::string password) {
-        this->username = username;
-        this->password = password;
-        this->createdAt = std::time(nullptr);
-
-        // Generate UUID for instructor
-        uuid_t uuid;
-        uuid_generate(uuid);
-        char uuidStr[37];
-        uuid_unparse(uuid, uuidStr);
-        this->instructorId = std::string(uuidStr);
+    // Function to add a new course
+    void addCourse(const Course& course) {
+        courses.push_back(course);
     }
 
-    void createCourse() {
-        // Implement createCourse functionality
-    }
-
-    void removeCourse(std::string courseId) {
-        // Implement removeCourse functionality
-    }
-
-    void viewCreatedCourses() {
-        // Implement viewCreatedCourses functionality
-    }
-
-    void changePassword() {
-        // Implement changePassword functionality
-    }
-
-    void changeUsername() {
-        // Implement changeUsername functionality
+    // Function to display all courses
+    void displayCourses() const {
+        std::cout << "Available Courses:\n";
+        for (const auto& course : courses) {
+            course.display();
+            std::cout << std::endl;
+        }
     }
 };
-
-class User {
-private:
-    std::string username;
-    std::string password;
-    std::string userId;
-    time_t createdAt;
-    std::vector<std::string> enrolledCourseIds;
-
-public:
-    User(std::string username, std::string password) {
-        this->username = username;
-        this->password = password;
-        this->createdAt = std::time(nullptr);
-
-        // Generate UUID for user
-        uuid_t uuid;
-        uuid_generate(uuid);
-        char uuidStr[37];
-        uuid_unparse(uuid, uuidStr);
-        this->userId = std::string(uuidStr);
-    }
-
-    void browseCourses() {
-        // Implement browseCourses functionality
-    }
-
-    void enrollCourse(std::string courseId) {
-        // Implement enrollCourse functionality
-    }
-
-    void unenrollCourse(std::string courseId) {
-        // Implement unenrollCourse functionality
-    }
-
-    void changePassword() {
-        // Implement changePassword functionality
-    }
-
-    void changeUsername() {
-        // Implement changeUsername functionality
-    }
-
-    void viewEnrolledCourses() {
-        // Implement viewEnrolledCourses functionality
-    }
-};
-
 
 int main() {
+    // Seed random number generator
+    srand(time(nullptr));
+
+    // Creating instances of users
+    RegularUser regularUser("user123", "password");
+    Instructor instructor("instructor1", "password");
+
+    // Signing up and signing in
+    regularUser.signUp();
+    regularUser.signIn();
+
+    instructor.signUp();
+    instructor.signIn();
+
+    // Creating courses
+    Course course1("Mathematics", "Basic mathematics course");
+    Course course2("Programming", "Introduction to programming course");
+    Course course3("LLD", "Low level design for beginners");
+    Course course4("Web Development", "Introduction to Web Dev");
+
+    // Adding courses to the course selling system
+    Courshell courseSystem;
+    courseSystem.addCourse(course1);
+    courseSystem.addCourse(course2);
+    courseSystem.addCourse(course3);
+    courseSystem.addCourse(course4);
+
+    // Displaying available courses
+    courseSystem.displayCourses();
+
     return 0;
 }
