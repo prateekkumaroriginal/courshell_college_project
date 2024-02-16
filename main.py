@@ -379,66 +379,65 @@ if __name__ == "__main__":
                                     continue
 
                                 if choice == 1:
+                                    try:
+                                        moduleIndex = int(input("Enter module index: ")) - 1
+                                    except ValueError:
+                                        print("\nInvalid module index. Please try again.\n\n")
+                                        continue
+
+                                    if not (0 <= moduleIndex < len(modules)):
+                                        print("\nInvalid module index. Please try again.\n\n")
+                                        continue
+
+                                    module = modules[moduleIndex]
+                                    print(module.title)
+                                    print("Articles:-\n")
+                                    articles = []
+                                    for i, articleId in enumerate(module.articleIds):
+                                        article = module.findArticle(articleId)
+                                        if article:
+                                            print(f"Article {i+1}: {article.title}")
+                                            articles.append(article)
+
+                                    if not articles:
+                                        print("No articles found.")
+                                        continue
+
                                     while True:
+                                        print("1. Enter Article")
+                                        print("2. Back to Module Menu")
+                                        print("3. Exit Program")
+
                                         try:
-                                            moduleIndex = int(input("Enter module index: ")) - 1
+                                            choice = int(input("\nEnter your choice: "))
                                         except ValueError:
-                                            print("\nInvalid module index. Please try again.\n\n")
+                                            print("\nInvalid choice. Please try again.\n\n")
                                             continue
 
-                                        if not (0 <= moduleIndex < len(modules)):
-                                            print("\nInvalid module index. Please try again.\n\n")
-                                            continue
-
-                                        module = modules[moduleIndex]
-                                        print(module.title)
-                                        print("Articles:-\n")
-                                        articles = []
-                                        for i, articleId in enumerate(module.articleIds):
-                                            article = module.findArticle(articleId)
-                                            if article:
-                                                print(f"Article {i+1}: {article.title}")
-                                                articles.append(article)
-
-                                        if not articles:
-                                            print("No articles found.")
-                                            continue
-
-                                        while True:
-                                            print("1. Enter Article")
-                                            print("2. Back to Module Menu")
-                                            print("3. Exit Program")
-
+                                        if choice == 1:
                                             try:
-                                                choice = int(input("\nEnter your choice: "))
+                                                articleIndex = int(input("\nEnter article index: ")) - 1
                                             except ValueError:
-                                                print("\nInvalid choice. Please try again.\n\n")
+                                                print("\nInvalid article index. Please try again.\n\n")
                                                 continue
 
-                                            if choice == 1:
-                                                try:
-                                                    articleIndex = int(input("\nEnter article index: ")) - 1
-                                                except ValueError:
-                                                    print("\nInvalid article index. Please try again.\n\n")
-                                                    continue
-
-                                                if not (0 <= articleIndex < len(articles)):
-                                                    print("\nInvalid article index. Please try again.\n\n")
-                                                    continue
-
-                                                article = articles[articleIndex]
-                                                nr_dashes = (os.get_terminal_size().columns - len(article.title))//2
-                                                print(f"{'-'*nr_dashes}{article.title}{'-'*nr_dashes}")
-                                                print(article.content)
-                                                print(f"{'-'*(nr_dashes*2 + len(article.title))}")
-                                            elif choice == 2:
-                                                break
-                                            elif choice == 3:
-                                                print("Exiting...")
-                                                exit()
-                                            else:
-                                                print("\nInvalid choice. Please try again.\n\n")
+                                            if not (0 <= articleIndex < len(articles)):
+                                                print("\nInvalid article index. Please try again.\n\n")
                                                 continue
+
+                                            article = articles[articleIndex]
+                                            nr_dashes = (os.get_terminal_size().columns - len(article.title))//2
+                                            print(f"{'-'*nr_dashes}{article.title}{'-'*nr_dashes}")
+                                            print(article.content)
+                                            print(f"{'-'*(nr_dashes*2 + len(article.title))}")
+                                        elif choice == 2:
+                                            break
+                                        elif choice == 3:
+                                            print("Exiting...")
+                                            exit()
+                                        else:
+                                            print("\nInvalid choice. Please try again.\n\n")
+                                            continue
 
                                 elif choice == 2:
                                     CURRENT_LOGIN.unenrollCourse(courseId)
@@ -639,12 +638,20 @@ if __name__ == "__main__":
                                             if article:
                                                 articles.append(article)
                                                 print(f"Article {i+1}: {article.title}, Optional: {article.isOptional}")
+
+                                        if not articles:
+                                            print("No articles found.")
+
                                     elif choice == 5:
                                         articles = []
                                         for i, articleId in enumerate(module.articleIds):
                                             article = module.findArticle(articleId)
                                             if article:
                                                 articles.append(article)
+
+                                        if not articles:
+                                            print("No articles found.")
+                                            continue
 
                                         try:
                                             articleIndex = int(input("Enter article index: ")) - 1
