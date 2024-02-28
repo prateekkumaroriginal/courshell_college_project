@@ -1,28 +1,54 @@
 # Courshell
-Courshell is a comprehensive course selling platform designed to provide users with access to a wide range of educational courses. Whether you're looking to enhance your skills, pursue a hobby, 
-or advance your career, CourseShell offers a diverse selection of courses to suit your needs. With user-friendly features and an intuitive interface, finding and enrolling in courses has never been easier.
 
-# Features
-- Course Selection: Browse through a vast array of courses spanning various categories and topics.
-- Enrollment: Enroll in courses of your choice with just a few clicks.
-- Instructor Dashboard: Instructors can create and manage their courses, monitor enrollments, and interact with students.
-- User Dashboard: Users can view their enrolled courses, track their progress, and manage their account settings.
-- Secure Payments: Secure payment gateway ensures safe and hassle-free transactions.
-- Responsive Design: Access Courshell from any device - desktop, tablet, or mobile - with a responsive and mobile-friendly design.
+Courshell is a command-line application designed to facilitate online learning by providing users with the ability to browse courses, enroll in them, and access course materials. Instructors can create and manage courses, while users can enroll in courses, view their enrolled courses, and access course content.
 
-- Sign Up: Create an account on Courshell to access all features.
-- Browse Courses: Explore the wide range of courses available on the platform.
-- Enroll: Enroll in courses that interest you and start learning.
-- Teach: Are you an expert in your field? Become an instructor and share your knowledge with others by creating and publishing your own courses.
+## Features
 
-# Contributing
-Contributions to Courshell are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
-For major changes, please discuss them first by opening an issue to coordinate with the maintainers.
+### For Users
 
-This project describes for now the schema (with codes) of how Courshell will look in the future when developed using a specific tech stack
+- **Sign Up**: Users can sign up for an account to access the platform.
+- **Login**: Users can log in to their accounts to access the platform features.
+- **Browse Courses**: Users can view available courses.
+- **Enroll in Courses**: Users can enroll in courses they are interested in.
+- **View Enrolled Courses**: Users can see a list of courses they are currently enrolled in.
+- **View Course Content**: Users can access course modules and articles to view educational content.
+- **Change Password**: Users can change their account password.
+- **Change Username**: Users can change their account username.
+- **Logout**: Users can log out of their accounts.
 
+### For Instructors
 
+- **Sign Up**: Instructors can sign up for an account to access the platform.
+- **Login**: Instructors can log in to their accounts to access the platform features.
+- **Create Courses**: Instructors can create new courses with titles, descriptions, and modules.
+- **Remove Courses**: Instructors can remove courses they have created.
+- **Change Password**: Instructors can change their account password.
+- **Change Username**: Instructors can change their account username.
+- **View Created Courses**: Instructors can see a list of courses they have created.
+- **Update Courses**: Instructors can update course titles, descriptions, and modules.
 
+## Installation
 
+1. Clone the repository: `git clone <repository-url>`
+2. Navigate to the project directory: `cd courshell`
+3. Run the desired language's program.
+4. **Note**: For running node.js program, run command `npm i` first.
 
+## Dependencies
 
+### Python
+- shortuuid
+- time
+- os
+
+### Node JS
+- readline-sync
+- short-uuid
+- terminal-size
+
+## Contributors
+
+- [Prateek Kumar](https://github.com/prateekkumaroriginal)
+- [Mohammad Saif Ansari](https://github.com/MohammadSaifAnsari)
+- [Zayed Alam](https://github.com/zayedwithay)
+- [Mohammad Arish Siddiqui](https://github.com/Mohd-Arish)
